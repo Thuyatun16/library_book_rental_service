@@ -12,7 +12,7 @@ describe('RentalController', () => {
   let service: RentalService;
 
   const mockUserPayload = {
-    userId: 'user-uuid-1',
+    id: 'user-uuid-1',
     email: 'test@example.com',
     role: Role.STUDENT,
   };
@@ -55,7 +55,7 @@ describe('RentalController', () => {
 
       const req = { user: mockUserPayload };
       expect(await controller.rentBook(req as any, rentBookDto)).toEqual(mockResponse);
-      expect(service.rentBook).toHaveBeenCalledWith(mockUserPayload.userId, rentBookDto);
+      expect(service.rentBook).toHaveBeenCalledWith(mockUserPayload.id, rentBookDto);
     });
   });
 
@@ -67,7 +67,7 @@ describe('RentalController', () => {
 
       const req = { user: mockUserPayload };
       expect(await controller.returnBook(req as any, rentalId)).toEqual(mockResponse);
-      expect(service.returnBook).toHaveBeenCalledWith(mockUserPayload.userId, rentalId);
+      expect(service.returnBook).toHaveBeenCalledWith(mockUserPayload.id, rentalId);
     });
   });
 
@@ -78,7 +78,7 @@ describe('RentalController', () => {
 
       const req = { user: mockUserPayload };
       expect(await controller.findUserRentals(req as any)).toEqual(mockResponse);
-      expect(service.findUserRentals).toHaveBeenCalledWith(mockUserPayload.userId);
+      expect(service.findUserRentals).toHaveBeenCalledWith(mockUserPayload.id);
     });
   });
 

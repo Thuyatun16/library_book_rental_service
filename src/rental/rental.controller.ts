@@ -17,8 +17,7 @@ export class RentalController {
   @ApiResponse({ status: 401, description: 'Unauthorized.' })
   @Post('rent')
   async rentBook(@Request() req: { user: UserPayload }, @Body() rentBookDto: RentBookDto) {
-    console.log(req.user,"this is user ");
-    return this.rentalService.rentBook(req.user.id, rentBookDto);
+    return await this.rentalService.rentBook(req.user.id, rentBookDto);
   }
 
   @ApiOperation({ summary: 'Return a rented book' })
