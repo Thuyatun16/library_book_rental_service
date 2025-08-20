@@ -1,162 +1,118 @@
 # Book Rental Service
 
-A NestJS-based backend application for managing book rentals, users, and books. It includes authentication, authorization (role-based), and a rental flow.
+Hey there! This is a NestJS-powered backend for a book rental service. It handles users, books, and rentals, complete with login, roles, and all that good stuff.
 
 ## Getting Started
 
-These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
+Ready to get this app running? Here's how you can set it up, whether you prefer working directly on your machine or with Docker.
 
-### Prerequisites
+### What you'll need:
 
-*   Node.js (LTS version recommended)
-*   npm (Node Package Manager)
-*   PostgreSQL database
-*   Redis (for caching/session management)
+*   Node.js (the latest stable version is usually best!)
+*   npm (Node Package Manager, comes with Node.js)
+*   A PostgreSQL database (that's where your data lives!)
+*   Redis (for some speedy caching)
 
-### Local Development
+---
 
-Follow these steps to set up and run the application locally without Docker.
+### Option 1: Running it Locally (No Docker)
 
-1.  **Clone the repository:**
+If you like keeping things on your machine, follow these steps:
+
+1.  **Grab the code:**
     ```bash
     git clone https://github.com/Thuyatun16/library_book_rental_service.git
     cd library_book_rental_service
     ```
 
-2.  **Install dependencies:**
+2.  **Install the goodies:**
     ```bash
     npm install
     ```
 
-3.  **Database Setup:**
-    *   Ensure you have a PostgreSQL database running.
-    *   Set your database connection URL in a `.env` file at the project root. Example:
+3.  **Database Time!**
+    *   Make sure your PostgreSQL database is up and running.
+    *   Create a `.env` file in the project's main folder. Inside, put your database connection string. It'll look something like this:
         ```
-        DATABASE_URL="postgresql://user:password@localhost:5432/your_database_name"
+        DATABASE_URL="postgresql://your_user:your_password@localhost:5432/your_database_name"
         ```
-    *   Apply Prisma migrations to set up your database schema:
+    *   Now, let's get your database schema ready. Run this:
         ```bash
         npx prisma migrate deploy
         ```
 
-4.  **Run the application in development mode:**
+4.  **Fire it up!**
     ```bash
     npm run start:dev
     ```
-    The application will typically run on `http://localhost:3000`.
+    Your app should be chilling at `http://localhost:3000`.
 
-5.  **Access Swagger UI (API Documentation):**
-    Once the application is running, you can access the Swagger UI for API documentation and testing at:
-    `http://localhost:3000/api` (or similar, depending on your Swagger setup).
+5.  **Check out the API Docs (Swagger):**
+    Once the app is running, pop open your browser and head to `http://localhost:3000/api` to see all the API endpoints.
 
-### Running Tests Locally
+#### Testing Locally:
 
-1.  **Unit and Integration Tests:**
+*   **Quick Checks (Unit/Integration Tests):**
     ```bash
     npm run test
     ```
 
-2.  **End-to-End (E2E) Tests:**
-    Ensure your application is running (either locally or via Docker Compose).
+*   **Full App Tests (End-to-End):**
+    Make sure your app is running first (either locally or with Docker Compose).
     ```bash
     npm run test:e2e
     ```
 
-## Docker Development (Recommended)
+---
 
-Using Docker Compose is the recommended way to run this application, as it sets up the NestJS app, PostgreSQL database, and Redis cache in isolated containers.
+### Option 2: Running it with Docker (Super Recommended!)
 
-### Prerequisites for Docker Development
+This is the easiest way to get everything (your app, database, and Redis) running together in a neat, isolated environment.
 
-*   Docker Desktop installed and running.
+#### What you'll need for Docker:
 
-### Setup and Run with Docker Compose
+*   Docker Desktop (download and install it if you haven't!)
 
-1.  **Ensure Docker Desktop is running.**
+#### Let's get Docker-ized:
 
-2.  **Update `docker-compose.yml` credentials:**
-    Open `docker-compose.yml` and replace the placeholder `user` and `password` for the `db` service with your desired secure credentials.
+1.  **First, make sure Docker Desktop is open and running.**
 
-3.  **Build and run all services:**
-    This command will build the NestJS application's Docker image, start the PostgreSQL and Redis containers, and automatically apply database migrations before starting the NestJS app.
+2.  **A quick `docker-compose.yml` check:**
+    Open the `docker-compose.yml` file in the main project folder. You'll see some placeholder `user` and `password` for the database. **Change these to something secure you'll remember!**
+
+3.  **Build and Launch Everything!**
+    This single command does it all: builds your app's Docker image, starts PostgreSQL and Redis, and even sets up your database before your app kicks off.
     ```bash
     docker compose up --build -d
     ```
 
-4.  **Verify services are running:**
+4.  **See if it's all running:**
     ```bash
     docker compose ps
     ```
-    You should see `app`, `db`, and `redis` services listed with a `running` status.
+    You should see `app`, `db`, and `redis` all happily running.
 
-5.  **Access the application:**
-    The application will be accessible at `http://localhost:3000`.
+5.  **Your app is live!**
+    Head to `http://localhost:3000` in your browser.
 
-6.  **Access Swagger UI (API Documentation) with Docker:**
-    Once the Docker Compose services are up, you can access the Swagger UI at:
-    `http://localhost:3000/api` (or similar, depending on your Swagger setup).
+6.  **API Docs (Swagger) in Docker:**
+    Just like locally, your API docs are at `http://localhost:3000/api`.
 
-### Running Tests with Docker
+#### Testing with Docker:
 
-You can run your tests directly within the Docker Compose environment for consistency.
+Want to run tests in a super consistent environment? Docker's got you covered!
 
-1.  **Ensure your Docker Compose services are running:**
+1.  **Make sure your Docker Compose services are up:**
     ```bash
     docker compose up -d
     ```
 
-2.  **Unit and Integration Tests in Docker:**
+2.  **Unit/Integration Tests in Docker:**
     ```bash
     docker compose run --rm app npm run test
     ```
 
-3.  **End-to-End (E2E) Tests in Docker:**
+3.  **End-to-End Tests in Docker:**
     ```bash
     docker compose run --rm app npm run test:e2e
     ```
-
-## API Documentation
-
-The API documentation is available via Swagger UI.
-*   **Local:** `http://localhost:3000/api`
-*   **Docker:** `http://localhost:3000/api`
-
-## Deployment
-
-When you're ready to deploy your NestJS application to production, there are some key steps you can take to ensure it runs as efficiently as possible. Check out the [deployment documentation](https://docs.nestjs.com/deployment) for more information.
-
-If you are looking for a cloud-based platform to deploy your NestJS application, check out [Mau](https://mau.nestjs.com), our official platform for deploying NestJS applications on AWS. Mau makes deployment straightforward and fast, requiring just a few simple steps:
-
-```bash
-$ npm install -g @nestjs/mau
-$ mau deploy
-```
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-## Resources
-
-Check out a few resources that may come in handy when working with NestJS:
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-## Support
-
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
-## Stay in touch
-
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
-
-## License
-
-Nest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
