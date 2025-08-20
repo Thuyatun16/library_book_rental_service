@@ -1,61 +1,125 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
-</p>
+# Book Rental Service
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+A NestJS-based backend application for managing book rentals, users, and books. It includes authentication, authorization (role-based), and a rental flow.
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+## Getting Started
 
-## Description
+These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+### Prerequisites
 
-## Project setup
+*   Node.js (LTS version recommended)
+*   npm (Node Package Manager)
+*   PostgreSQL database
+*   Redis (for caching/session management)
 
-```bash
-$ npm install
-```
+### Local Development
 
-## Compile and run the project
+Follow these steps to set up and run the application locally without Docker.
 
-```bash
-# development
-$ npm run start
+1.  **Clone the repository:**
+    ```bash
+    git clone https://github.com/Thuyatun16/library_book_rental_service.git
+    cd library_book_rental_service
+    ```
 
-# watch mode
-$ npm run start:dev
+2.  **Install dependencies:**
+    ```bash
+    npm install
+    ```
 
-# production mode
-$ npm run start:prod
-```
+3.  **Database Setup:**
+    *   Ensure you have a PostgreSQL database running.
+    *   Set your database connection URL in a `.env` file at the project root. Example:
+        ```
+        DATABASE_URL="postgresql://user:password@localhost:5432/your_database_name"
+        ```
+    *   Apply Prisma migrations to set up your database schema:
+        ```bash
+        npx prisma migrate deploy
+        ```
 
-## Run tests
+4.  **Run the application in development mode:**
+    ```bash
+    npm run start:dev
+    ```
+    The application will typically run on `http://localhost:3000`.
 
-```bash
-# unit tests
-$ npm run test
+5.  **Access Swagger UI (API Documentation):**
+    Once the application is running, you can access the Swagger UI for API documentation and testing at:
+    `http://localhost:3000/api` (or similar, depending on your Swagger setup).
 
-# e2e tests
-$ npm run test:e2e
+### Running Tests Locally
 
-# test coverage
-$ npm run test:cov
-```
+1.  **Unit and Integration Tests:**
+    ```bash
+    npm run test
+    ```
+
+2.  **End-to-End (E2E) Tests:**
+    Ensure your application is running (either locally or via Docker Compose).
+    ```bash
+    npm run test:e2e
+    ```
+
+## Docker Development (Recommended)
+
+Using Docker Compose is the recommended way to run this application, as it sets up the NestJS app, PostgreSQL database, and Redis cache in isolated containers.
+
+### Prerequisites for Docker Development
+
+*   Docker Desktop installed and running.
+
+### Setup and Run with Docker Compose
+
+1.  **Ensure Docker Desktop is running.**
+
+2.  **Update `docker-compose.yml` credentials:**
+    Open `docker-compose.yml` and replace the placeholder `user` and `password` for the `db` service with your desired secure credentials.
+
+3.  **Build and run all services:**
+    This command will build the NestJS application's Docker image, start the PostgreSQL and Redis containers, and automatically apply database migrations before starting the NestJS app.
+    ```bash
+    docker compose up --build -d
+    ```
+
+4.  **Verify services are running:**
+    ```bash
+    docker compose ps
+    ```
+    You should see `app`, `db`, and `redis` services listed with a `running` status.
+
+5.  **Access the application:**
+    The application will be accessible at `http://localhost:3000`.
+
+6.  **Access Swagger UI (API Documentation) with Docker:**
+    Once the Docker Compose services are up, you can access the Swagger UI at:
+    `http://localhost:3000/api` (or similar, depending on your Swagger setup).
+
+### Running Tests with Docker
+
+You can run your tests directly within the Docker Compose environment for consistency.
+
+1.  **Ensure your Docker Compose services are running:**
+    ```bash
+    docker compose up -d
+    ```
+
+2.  **Unit and Integration Tests in Docker:**
+    ```bash
+    docker compose run --rm app npm run test
+    ```
+
+3.  **End-to-End (E2E) Tests in Docker:**
+    ```bash
+    docker compose run --rm app npm run test:e2e
+    ```
+
+## API Documentation
+
+The API documentation is available via Swagger UI.
+*   **Local:** `http://localhost:3000/api`
+*   **Docker:** `http://localhost:3000/api`
 
 ## Deployment
 
