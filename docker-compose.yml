@@ -1,0 +1,43 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      DATABASE_URL: postgresql://user:password@db:5432/book_rental_db
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      # Add any other environment variables your NestJS app needs
+    depends_on:
+      - db
+      - redis
+    volumes:
+      - .:/app # Mount the current directory into the container for development (optional, but useful for hot-reloading)
+      - /app/node_modules # Exclude node_modules from the bind mount to prevent issues
+    command: ["npm", "run", "start:prod:migrate"]
+
+  db:
+    image: postgres:13
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: book_rental_db
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  redis:
+    image: redis:6-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+
+volumes:
+  db_data:
+  redis_data:
