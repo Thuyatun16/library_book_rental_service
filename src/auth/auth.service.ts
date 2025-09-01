@@ -1,4 +1,8 @@
-import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  BadRequestException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
@@ -29,7 +33,7 @@ export class AuthService {
     const isPasswordValid = await bcrypt.compare(pass, user.password);
     console.log('Password valid:', isPasswordValid);
     if (isPasswordValid) {
-      const { password, ...result } = user;
+      const { ...result } = user;
       return result;
     }
     return null;
@@ -45,7 +49,7 @@ export class AuthService {
       sub: user.id,
       role: user.role,
     };
-    
+
     const token = this.jwtService.sign(payload);
     //console.log('Generated token:', token); // Log the token for debugging
     return {
@@ -54,9 +58,9 @@ export class AuthService {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role
+        role: user.role,
       },
-      token: token
+      token: token,
     };
   }
 
@@ -79,15 +83,15 @@ export class AuthService {
         role: registerDto.role,
       },
     });
-    
+
     return {
       message: 'User registered successfully',
       user: {
         id: user.id,
         name: user.name,
         email: user.email,
-        role: user.role
-      }
+        role: user.role,
+      },
     };
   }
 }

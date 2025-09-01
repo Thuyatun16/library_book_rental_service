@@ -42,7 +42,9 @@ describe('RentalService', () => {
 
     service = module.get<RentalService>(RentalService);
     prismaService = module.get<PrismaService>(PrismaService);
-    rentalValidationService = module.get<RentalValidationService>(RentalValidationService);
+    rentalValidationService = module.get<RentalValidationService>(
+      RentalValidationService,
+    );
   });
 
   it('should be defined', () => {
@@ -64,13 +66,17 @@ describe('RentalService', () => {
     };
 
     beforeEach(() => {
-      (rentalValidationService.validateBookAvailability as jest.Mock).mockResolvedValue(mockBook);
+      (
+        rentalValidationService.validateBookAvailability as jest.Mock
+      ).mockResolvedValue(mockBook);
       (prismaService.rental.create as jest.Mock).mockResolvedValue(mockRental);
     });
 
     it('should successfully rent a book', async () => {
       const result = await service.rentBook(userId, rentBookDto);
-      expect(rentalValidationService.validateBookAvailability).toHaveBeenCalledWith(rentBookDto.bookId);
+      expect(
+        rentalValidationService.validateBookAvailability,
+      ).toHaveBeenCalledWith(rentBookDto.bookId);
       expect(prismaService.book.update).toHaveBeenCalledWith({
         where: { id: rentBookDto.bookId },
         data: { quantity: { decrement: 1 } },
@@ -83,25 +89,40 @@ describe('RentalService', () => {
           rentedAt: expect.any(Date),
         },
       });
-      expect(result).toEqual({ message: 'Book rented successfully', rental: mockRental });
+      expect(result).toEqual({
+        message: 'Book rented successfully',
+        rental: mockRental,
+      });
     });
 
     it('should throw BadRequestException if book is not available', async () => {
-      (rentalValidationService.validateBookAvailability as jest.Mock).mockImplementation(() => {
+      (
+        rentalValidationService.validateBookAvailability as jest.Mock
+      ).mockImplementation(() => {
         throw new BadRequestException('Book is not available for rent');
       });
 
-      await expect(service.rentBook(userId, rentBookDto)).rejects.toThrow(BadRequestException);
-      await expect(service.rentBook(userId, rentBookDto)).rejects.toThrow('Book is not available for rent');
+      await expect(service.rentBook(userId, rentBookDto)).rejects.toThrow(
+        BadRequestException,
+      );
+      await expect(service.rentBook(userId, rentBookDto)).rejects.toThrow(
+        'Book is not available for rent',
+      );
     });
 
     it('should throw NotFoundException if book not found', async () => {
-      (rentalValidationService.validateBookAvailability as jest.Mock).mockImplementation(() => {
+      (
+        rentalValidationService.validateBookAvailability as jest.Mock
+      ).mockImplementation(() => {
         throw new NotFoundException('Book not found');
       });
 
-      await expect(service.rentBook(userId, rentBookDto)).rejects.toThrow(NotFoundException);
-      await expect(service.rentBook(userId, rentBookDto)).rejects.toThrow('Book not found');
+      await expect(service.rentBook(userId, rentBookDto)).rejects.toThrow(
+        NotFoundException,
+      );
+      await expect(service.rentBook(userId, rentBookDto)).rejects.toThrow(
+        'Book not found',
+      );
     });
   });
 
@@ -117,20 +138,38 @@ describe('RentalService', () => {
       createdAt: new Date(),
       updatedAt: new Date(),
     };
-    const mockUpdatedRental = { ...mockRental, status: RentalStatus.RETURNED, returnedAt: new Date() };
+    const mockUpdatedRental = {
+      ...mockRental,
+      status: RentalStatus.RETURNED,
+      returnedAt: new Date(),
+    };
 
     beforeEach(() => {
-      (rentalValidationService.validateRentalRecord as jest.Mock).mockResolvedValue(mockRental);
-      (rentalValidationService.validateUserAuthorization as jest.Mock).mockReturnValue(undefined);
-      (rentalValidationService.validateRentalStatus as jest.Mock).mockReturnValue(undefined);
-      (prismaService.rental.update as jest.Mock).mockResolvedValue(mockUpdatedRental);
+      (
+        rentalValidationService.validateRentalRecord as jest.Mock
+      ).mockResolvedValue(mockRental);
+      (
+        rentalValidationService.validateUserAuthorization as jest.Mock
+      ).mockReturnValue(undefined);
+      (
+        rentalValidationService.validateRentalStatus as jest.Mock
+      ).mockReturnValue(undefined);
+      (prismaService.rental.update as jest.Mock).mockResolvedValue(
+        mockUpdatedRental,
+      );
     });
 
     it('should successfully return a book', async () => {
       const result = await service.returnBook(userId, rentalId);
-      expect(rentalValidationService.validateRentalRecord).toHaveBeenCalledWith(rentalId);
-      expect(rentalValidationService.validateUserAuthorization).toHaveBeenCalledWith(mockRental.userId, userId);
-      expect(rentalValidationService.validateRentalStatus).toHaveBeenCalledWith(mockRental.status);
+      expect(rentalValidationService.validateRentalRecord).toHaveBeenCalledWith(
+        rentalId,
+      );
+      expect(
+        rentalValidationService.validateUserAuthorization,
+      ).toHaveBeenCalledWith(mockRental.userId, userId);
+      expect(rentalValidationService.validateRentalStatus).toHaveBeenCalledWith(
+        mockRental.status,
+      );
       expect(prismaService.book.update).toHaveBeenCalledWith({
         where: { id: mockRental.bookId },
         data: { quantity: { increment: 1 } },
@@ -142,49 +181,77 @@ describe('RentalService', () => {
           returnedAt: expect.any(Date),
         },
       });
-      expect(result).toEqual({ message: 'Book returned successfully', updatedRental: mockUpdatedRental });
+      expect(result).toEqual({
+        message: 'Book returned successfully',
+        updatedRental: mockUpdatedRental,
+      });
     });
 
     it('should throw NotFoundException if rental record not found', async () => {
-      (rentalValidationService.validateRentalRecord as jest.Mock).mockImplementation(() => {
+      (
+        rentalValidationService.validateRentalRecord as jest.Mock
+      ).mockImplementation(() => {
         throw new NotFoundException('Rental record not found');
       });
 
-      await expect(service.returnBook(userId, rentalId)).rejects.toThrow(NotFoundException);
+      await expect(service.returnBook(userId, rentalId)).rejects.toThrow(
+        NotFoundException,
+      );
     });
 
     it('should throw BadRequestException if user is not authorized', async () => {
-      (rentalValidationService.validateUserAuthorization as jest.Mock).mockImplementation(() => {
-        throw new BadRequestException('You can only return your own rented books');
+      (
+        rentalValidationService.validateUserAuthorization as jest.Mock
+      ).mockImplementation(() => {
+        throw new BadRequestException(
+          'You can only return your own rented books',
+        );
       });
 
-      await expect(service.returnBook(userId, rentalId)).rejects.toThrow(BadRequestException);
+      await expect(service.returnBook(userId, rentalId)).rejects.toThrow(
+        BadRequestException,
+      );
     });
 
     it('should throw BadRequestException if book already returned', async () => {
-      (rentalValidationService.validateRentalStatus as jest.Mock).mockImplementation(() => {
+      (
+        rentalValidationService.validateRentalStatus as jest.Mock
+      ).mockImplementation(() => {
         throw new BadRequestException('Book already returned');
       });
 
-      await expect(service.returnBook(userId, rentalId)).rejects.toThrow(BadRequestException);
+      await expect(service.returnBook(userId, rentalId)).rejects.toThrow(
+        BadRequestException,
+      );
     });
   });
 
   describe('findUserRentals', () => {
     const userId = 'user-uuid-1';
     const mockRentals = [
-      { id: 'rental-uuid-1', userId, bookId: 'book-uuid-1', status: RentalStatus.RENTED, book: { title: 'Book 1' } },
+      {
+        id: 'rental-uuid-1',
+        userId,
+        bookId: 'book-uuid-1',
+        status: RentalStatus.RENTED,
+        book: { title: 'Book 1' },
+      },
     ];
 
     it(`should return user's rental history`, async () => {
-      (prismaService.rental.findMany as jest.Mock).mockResolvedValue(mockRentals);
+      (prismaService.rental.findMany as jest.Mock).mockResolvedValue(
+        mockRentals,
+      );
 
       const result = await service.findUserRentals(userId);
       expect(prismaService.rental.findMany).toHaveBeenCalledWith({
         where: { userId },
         include: { book: true },
       });
-      expect(result).toEqual({ message: 'User rentals retrieved successfully', rentals: mockRentals });
+      expect(result).toEqual({
+        message: 'User rentals retrieved successfully',
+        rentals: mockRentals,
+      });
     });
   });
 
@@ -208,7 +275,9 @@ describe('RentalService', () => {
     ];
 
     it('should return all rental history', async () => {
-      (prismaService.rental.findMany as jest.Mock).mockResolvedValue(mockRentals);
+      (prismaService.rental.findMany as jest.Mock).mockResolvedValue(
+        mockRentals,
+      );
 
       const result = await service.findAllRentals();
       expect(prismaService.rental.findMany).toHaveBeenCalledWith({
@@ -226,7 +295,10 @@ describe('RentalService', () => {
           book: true,
         },
       });
-      expect(result).toEqual({ message: 'All rentals retrieved successfully', rentals: mockRentals });
+      expect(result).toEqual({
+        message: 'All rentals retrieved successfully',
+        rentals: mockRentals,
+      });
     });
   });
 });

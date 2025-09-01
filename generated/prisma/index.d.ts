@@ -28,6 +28,11 @@ export type Book = $Result.DefaultSelection<Prisma.$BookPayload>
  * 
  */
 export type Rental = $Result.DefaultSelection<Prisma.$RentalPayload>
+/**
+ * Model RentalSnapshot
+ * 
+ */
+export type RentalSnapshot = $Result.DefaultSelection<Prisma.$RentalSnapshotPayload>
 
 /**
  * Enums
@@ -206,6 +211,16 @@ export class PrismaClient<
     * ```
     */
   get rental(): Prisma.RentalDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.rentalSnapshot`: Exposes CRUD operations for the **RentalSnapshot** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RentalSnapshots
+    * const rentalSnapshots = await prisma.rentalSnapshot.findMany()
+    * ```
+    */
+  get rentalSnapshot(): Prisma.RentalSnapshotDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -648,7 +663,8 @@ export namespace Prisma {
   export const ModelName: {
     User: 'User',
     Book: 'Book',
-    Rental: 'Rental'
+    Rental: 'Rental',
+    RentalSnapshot: 'RentalSnapshot'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -667,7 +683,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "book" | "rental"
+      modelProps: "user" | "book" | "rental" | "rentalSnapshot"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -893,6 +909,80 @@ export namespace Prisma {
           }
         }
       }
+      RentalSnapshot: {
+        payload: Prisma.$RentalSnapshotPayload<ExtArgs>
+        fields: Prisma.RentalSnapshotFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RentalSnapshotFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalSnapshotPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RentalSnapshotFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalSnapshotPayload>
+          }
+          findFirst: {
+            args: Prisma.RentalSnapshotFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalSnapshotPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RentalSnapshotFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalSnapshotPayload>
+          }
+          findMany: {
+            args: Prisma.RentalSnapshotFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalSnapshotPayload>[]
+          }
+          create: {
+            args: Prisma.RentalSnapshotCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalSnapshotPayload>
+          }
+          createMany: {
+            args: Prisma.RentalSnapshotCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.RentalSnapshotCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalSnapshotPayload>[]
+          }
+          delete: {
+            args: Prisma.RentalSnapshotDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalSnapshotPayload>
+          }
+          update: {
+            args: Prisma.RentalSnapshotUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalSnapshotPayload>
+          }
+          deleteMany: {
+            args: Prisma.RentalSnapshotDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RentalSnapshotUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.RentalSnapshotUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalSnapshotPayload>[]
+          }
+          upsert: {
+            args: Prisma.RentalSnapshotUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$RentalSnapshotPayload>
+          }
+          aggregate: {
+            args: Prisma.RentalSnapshotAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateRentalSnapshot>
+          }
+          groupBy: {
+            args: Prisma.RentalSnapshotGroupByArgs<ExtArgs>
+            result: $Utils.Optional<RentalSnapshotGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RentalSnapshotCountArgs<ExtArgs>
+            result: $Utils.Optional<RentalSnapshotCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -988,6 +1078,7 @@ export namespace Prisma {
     user?: UserOmit
     book?: BookOmit
     rental?: RentalOmit
+    rentalSnapshot?: RentalSnapshotOmit
   }
 
   /* Types for Logging */
@@ -4448,6 +4539,1048 @@ export namespace Prisma {
 
 
   /**
+   * Model RentalSnapshot
+   */
+
+  export type AggregateRentalSnapshot = {
+    _count: RentalSnapshotCountAggregateOutputType | null
+    _avg: RentalSnapshotAvgAggregateOutputType | null
+    _sum: RentalSnapshotSumAggregateOutputType | null
+    _min: RentalSnapshotMinAggregateOutputType | null
+    _max: RentalSnapshotMaxAggregateOutputType | null
+  }
+
+  export type RentalSnapshotAvgAggregateOutputType = {
+    availability: number | null
+  }
+
+  export type RentalSnapshotSumAggregateOutputType = {
+    availability: number | null
+  }
+
+  export type RentalSnapshotMinAggregateOutputType = {
+    id: string | null
+    bookId: string | null
+    userId: string | null
+    rentedAt: Date | null
+    availability: number | null
+    createdAt: Date | null
+  }
+
+  export type RentalSnapshotMaxAggregateOutputType = {
+    id: string | null
+    bookId: string | null
+    userId: string | null
+    rentedAt: Date | null
+    availability: number | null
+    createdAt: Date | null
+  }
+
+  export type RentalSnapshotCountAggregateOutputType = {
+    id: number
+    bookId: number
+    userId: number
+    rentedAt: number
+    availability: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type RentalSnapshotAvgAggregateInputType = {
+    availability?: true
+  }
+
+  export type RentalSnapshotSumAggregateInputType = {
+    availability?: true
+  }
+
+  export type RentalSnapshotMinAggregateInputType = {
+    id?: true
+    bookId?: true
+    userId?: true
+    rentedAt?: true
+    availability?: true
+    createdAt?: true
+  }
+
+  export type RentalSnapshotMaxAggregateInputType = {
+    id?: true
+    bookId?: true
+    userId?: true
+    rentedAt?: true
+    availability?: true
+    createdAt?: true
+  }
+
+  export type RentalSnapshotCountAggregateInputType = {
+    id?: true
+    bookId?: true
+    userId?: true
+    rentedAt?: true
+    availability?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type RentalSnapshotAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RentalSnapshot to aggregate.
+     */
+    where?: RentalSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RentalSnapshots to fetch.
+     */
+    orderBy?: RentalSnapshotOrderByWithRelationInput | RentalSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RentalSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RentalSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RentalSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RentalSnapshots
+    **/
+    _count?: true | RentalSnapshotCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RentalSnapshotAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RentalSnapshotSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RentalSnapshotMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RentalSnapshotMaxAggregateInputType
+  }
+
+  export type GetRentalSnapshotAggregateType<T extends RentalSnapshotAggregateArgs> = {
+        [P in keyof T & keyof AggregateRentalSnapshot]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRentalSnapshot[P]>
+      : GetScalarType<T[P], AggregateRentalSnapshot[P]>
+  }
+
+
+
+
+  export type RentalSnapshotGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: RentalSnapshotWhereInput
+    orderBy?: RentalSnapshotOrderByWithAggregationInput | RentalSnapshotOrderByWithAggregationInput[]
+    by: RentalSnapshotScalarFieldEnum[] | RentalSnapshotScalarFieldEnum
+    having?: RentalSnapshotScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RentalSnapshotCountAggregateInputType | true
+    _avg?: RentalSnapshotAvgAggregateInputType
+    _sum?: RentalSnapshotSumAggregateInputType
+    _min?: RentalSnapshotMinAggregateInputType
+    _max?: RentalSnapshotMaxAggregateInputType
+  }
+
+  export type RentalSnapshotGroupByOutputType = {
+    id: string
+    bookId: string
+    userId: string
+    rentedAt: Date
+    availability: number
+    createdAt: Date
+    _count: RentalSnapshotCountAggregateOutputType | null
+    _avg: RentalSnapshotAvgAggregateOutputType | null
+    _sum: RentalSnapshotSumAggregateOutputType | null
+    _min: RentalSnapshotMinAggregateOutputType | null
+    _max: RentalSnapshotMaxAggregateOutputType | null
+  }
+
+  type GetRentalSnapshotGroupByPayload<T extends RentalSnapshotGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RentalSnapshotGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RentalSnapshotGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RentalSnapshotGroupByOutputType[P]>
+            : GetScalarType<T[P], RentalSnapshotGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RentalSnapshotSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookId?: boolean
+    userId?: boolean
+    rentedAt?: boolean
+    availability?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["rentalSnapshot"]>
+
+  export type RentalSnapshotSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookId?: boolean
+    userId?: boolean
+    rentedAt?: boolean
+    availability?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["rentalSnapshot"]>
+
+  export type RentalSnapshotSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    bookId?: boolean
+    userId?: boolean
+    rentedAt?: boolean
+    availability?: boolean
+    createdAt?: boolean
+  }, ExtArgs["result"]["rentalSnapshot"]>
+
+  export type RentalSnapshotSelectScalar = {
+    id?: boolean
+    bookId?: boolean
+    userId?: boolean
+    rentedAt?: boolean
+    availability?: boolean
+    createdAt?: boolean
+  }
+
+  export type RentalSnapshotOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "bookId" | "userId" | "rentedAt" | "availability" | "createdAt", ExtArgs["result"]["rentalSnapshot"]>
+
+  export type $RentalSnapshotPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "RentalSnapshot"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      bookId: string
+      userId: string
+      rentedAt: Date
+      availability: number
+      createdAt: Date
+    }, ExtArgs["result"]["rentalSnapshot"]>
+    composites: {}
+  }
+
+  type RentalSnapshotGetPayload<S extends boolean | null | undefined | RentalSnapshotDefaultArgs> = $Result.GetResult<Prisma.$RentalSnapshotPayload, S>
+
+  type RentalSnapshotCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<RentalSnapshotFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: RentalSnapshotCountAggregateInputType | true
+    }
+
+  export interface RentalSnapshotDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RentalSnapshot'], meta: { name: 'RentalSnapshot' } }
+    /**
+     * Find zero or one RentalSnapshot that matches the filter.
+     * @param {RentalSnapshotFindUniqueArgs} args - Arguments to find a RentalSnapshot
+     * @example
+     * // Get one RentalSnapshot
+     * const rentalSnapshot = await prisma.rentalSnapshot.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends RentalSnapshotFindUniqueArgs>(args: SelectSubset<T, RentalSnapshotFindUniqueArgs<ExtArgs>>): Prisma__RentalSnapshotClient<$Result.GetResult<Prisma.$RentalSnapshotPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one RentalSnapshot that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {RentalSnapshotFindUniqueOrThrowArgs} args - Arguments to find a RentalSnapshot
+     * @example
+     * // Get one RentalSnapshot
+     * const rentalSnapshot = await prisma.rentalSnapshot.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends RentalSnapshotFindUniqueOrThrowArgs>(args: SelectSubset<T, RentalSnapshotFindUniqueOrThrowArgs<ExtArgs>>): Prisma__RentalSnapshotClient<$Result.GetResult<Prisma.$RentalSnapshotPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RentalSnapshot that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalSnapshotFindFirstArgs} args - Arguments to find a RentalSnapshot
+     * @example
+     * // Get one RentalSnapshot
+     * const rentalSnapshot = await prisma.rentalSnapshot.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends RentalSnapshotFindFirstArgs>(args?: SelectSubset<T, RentalSnapshotFindFirstArgs<ExtArgs>>): Prisma__RentalSnapshotClient<$Result.GetResult<Prisma.$RentalSnapshotPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first RentalSnapshot that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalSnapshotFindFirstOrThrowArgs} args - Arguments to find a RentalSnapshot
+     * @example
+     * // Get one RentalSnapshot
+     * const rentalSnapshot = await prisma.rentalSnapshot.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends RentalSnapshotFindFirstOrThrowArgs>(args?: SelectSubset<T, RentalSnapshotFindFirstOrThrowArgs<ExtArgs>>): Prisma__RentalSnapshotClient<$Result.GetResult<Prisma.$RentalSnapshotPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more RentalSnapshots that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalSnapshotFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RentalSnapshots
+     * const rentalSnapshots = await prisma.rentalSnapshot.findMany()
+     * 
+     * // Get first 10 RentalSnapshots
+     * const rentalSnapshots = await prisma.rentalSnapshot.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rentalSnapshotWithIdOnly = await prisma.rentalSnapshot.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends RentalSnapshotFindManyArgs>(args?: SelectSubset<T, RentalSnapshotFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RentalSnapshotPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a RentalSnapshot.
+     * @param {RentalSnapshotCreateArgs} args - Arguments to create a RentalSnapshot.
+     * @example
+     * // Create one RentalSnapshot
+     * const RentalSnapshot = await prisma.rentalSnapshot.create({
+     *   data: {
+     *     // ... data to create a RentalSnapshot
+     *   }
+     * })
+     * 
+     */
+    create<T extends RentalSnapshotCreateArgs>(args: SelectSubset<T, RentalSnapshotCreateArgs<ExtArgs>>): Prisma__RentalSnapshotClient<$Result.GetResult<Prisma.$RentalSnapshotPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many RentalSnapshots.
+     * @param {RentalSnapshotCreateManyArgs} args - Arguments to create many RentalSnapshots.
+     * @example
+     * // Create many RentalSnapshots
+     * const rentalSnapshot = await prisma.rentalSnapshot.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends RentalSnapshotCreateManyArgs>(args?: SelectSubset<T, RentalSnapshotCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many RentalSnapshots and returns the data saved in the database.
+     * @param {RentalSnapshotCreateManyAndReturnArgs} args - Arguments to create many RentalSnapshots.
+     * @example
+     * // Create many RentalSnapshots
+     * const rentalSnapshot = await prisma.rentalSnapshot.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many RentalSnapshots and only return the `id`
+     * const rentalSnapshotWithIdOnly = await prisma.rentalSnapshot.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends RentalSnapshotCreateManyAndReturnArgs>(args?: SelectSubset<T, RentalSnapshotCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RentalSnapshotPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a RentalSnapshot.
+     * @param {RentalSnapshotDeleteArgs} args - Arguments to delete one RentalSnapshot.
+     * @example
+     * // Delete one RentalSnapshot
+     * const RentalSnapshot = await prisma.rentalSnapshot.delete({
+     *   where: {
+     *     // ... filter to delete one RentalSnapshot
+     *   }
+     * })
+     * 
+     */
+    delete<T extends RentalSnapshotDeleteArgs>(args: SelectSubset<T, RentalSnapshotDeleteArgs<ExtArgs>>): Prisma__RentalSnapshotClient<$Result.GetResult<Prisma.$RentalSnapshotPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one RentalSnapshot.
+     * @param {RentalSnapshotUpdateArgs} args - Arguments to update one RentalSnapshot.
+     * @example
+     * // Update one RentalSnapshot
+     * const rentalSnapshot = await prisma.rentalSnapshot.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends RentalSnapshotUpdateArgs>(args: SelectSubset<T, RentalSnapshotUpdateArgs<ExtArgs>>): Prisma__RentalSnapshotClient<$Result.GetResult<Prisma.$RentalSnapshotPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more RentalSnapshots.
+     * @param {RentalSnapshotDeleteManyArgs} args - Arguments to filter RentalSnapshots to delete.
+     * @example
+     * // Delete a few RentalSnapshots
+     * const { count } = await prisma.rentalSnapshot.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends RentalSnapshotDeleteManyArgs>(args?: SelectSubset<T, RentalSnapshotDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RentalSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalSnapshotUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RentalSnapshots
+     * const rentalSnapshot = await prisma.rentalSnapshot.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends RentalSnapshotUpdateManyArgs>(args: SelectSubset<T, RentalSnapshotUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RentalSnapshots and returns the data updated in the database.
+     * @param {RentalSnapshotUpdateManyAndReturnArgs} args - Arguments to update many RentalSnapshots.
+     * @example
+     * // Update many RentalSnapshots
+     * const rentalSnapshot = await prisma.rentalSnapshot.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more RentalSnapshots and only return the `id`
+     * const rentalSnapshotWithIdOnly = await prisma.rentalSnapshot.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends RentalSnapshotUpdateManyAndReturnArgs>(args: SelectSubset<T, RentalSnapshotUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$RentalSnapshotPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one RentalSnapshot.
+     * @param {RentalSnapshotUpsertArgs} args - Arguments to update or create a RentalSnapshot.
+     * @example
+     * // Update or create a RentalSnapshot
+     * const rentalSnapshot = await prisma.rentalSnapshot.upsert({
+     *   create: {
+     *     // ... data to create a RentalSnapshot
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RentalSnapshot we want to update
+     *   }
+     * })
+     */
+    upsert<T extends RentalSnapshotUpsertArgs>(args: SelectSubset<T, RentalSnapshotUpsertArgs<ExtArgs>>): Prisma__RentalSnapshotClient<$Result.GetResult<Prisma.$RentalSnapshotPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of RentalSnapshots.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalSnapshotCountArgs} args - Arguments to filter RentalSnapshots to count.
+     * @example
+     * // Count the number of RentalSnapshots
+     * const count = await prisma.rentalSnapshot.count({
+     *   where: {
+     *     // ... the filter for the RentalSnapshots we want to count
+     *   }
+     * })
+    **/
+    count<T extends RentalSnapshotCountArgs>(
+      args?: Subset<T, RentalSnapshotCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RentalSnapshotCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RentalSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalSnapshotAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RentalSnapshotAggregateArgs>(args: Subset<T, RentalSnapshotAggregateArgs>): Prisma.PrismaPromise<GetRentalSnapshotAggregateType<T>>
+
+    /**
+     * Group by RentalSnapshot.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RentalSnapshotGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RentalSnapshotGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RentalSnapshotGroupByArgs['orderBy'] }
+        : { orderBy?: RentalSnapshotGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RentalSnapshotGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRentalSnapshotGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RentalSnapshot model
+   */
+  readonly fields: RentalSnapshotFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RentalSnapshot.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__RentalSnapshotClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the RentalSnapshot model
+   */
+  interface RentalSnapshotFieldRefs {
+    readonly id: FieldRef<"RentalSnapshot", 'String'>
+    readonly bookId: FieldRef<"RentalSnapshot", 'String'>
+    readonly userId: FieldRef<"RentalSnapshot", 'String'>
+    readonly rentedAt: FieldRef<"RentalSnapshot", 'DateTime'>
+    readonly availability: FieldRef<"RentalSnapshot", 'Int'>
+    readonly createdAt: FieldRef<"RentalSnapshot", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * RentalSnapshot findUnique
+   */
+  export type RentalSnapshotFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalSnapshot
+     */
+    select?: RentalSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RentalSnapshot
+     */
+    omit?: RentalSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which RentalSnapshot to fetch.
+     */
+    where: RentalSnapshotWhereUniqueInput
+  }
+
+  /**
+   * RentalSnapshot findUniqueOrThrow
+   */
+  export type RentalSnapshotFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalSnapshot
+     */
+    select?: RentalSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RentalSnapshot
+     */
+    omit?: RentalSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which RentalSnapshot to fetch.
+     */
+    where: RentalSnapshotWhereUniqueInput
+  }
+
+  /**
+   * RentalSnapshot findFirst
+   */
+  export type RentalSnapshotFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalSnapshot
+     */
+    select?: RentalSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RentalSnapshot
+     */
+    omit?: RentalSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which RentalSnapshot to fetch.
+     */
+    where?: RentalSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RentalSnapshots to fetch.
+     */
+    orderBy?: RentalSnapshotOrderByWithRelationInput | RentalSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RentalSnapshots.
+     */
+    cursor?: RentalSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RentalSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RentalSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RentalSnapshots.
+     */
+    distinct?: RentalSnapshotScalarFieldEnum | RentalSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * RentalSnapshot findFirstOrThrow
+   */
+  export type RentalSnapshotFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalSnapshot
+     */
+    select?: RentalSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RentalSnapshot
+     */
+    omit?: RentalSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which RentalSnapshot to fetch.
+     */
+    where?: RentalSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RentalSnapshots to fetch.
+     */
+    orderBy?: RentalSnapshotOrderByWithRelationInput | RentalSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RentalSnapshots.
+     */
+    cursor?: RentalSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RentalSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RentalSnapshots.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RentalSnapshots.
+     */
+    distinct?: RentalSnapshotScalarFieldEnum | RentalSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * RentalSnapshot findMany
+   */
+  export type RentalSnapshotFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalSnapshot
+     */
+    select?: RentalSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RentalSnapshot
+     */
+    omit?: RentalSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter, which RentalSnapshots to fetch.
+     */
+    where?: RentalSnapshotWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RentalSnapshots to fetch.
+     */
+    orderBy?: RentalSnapshotOrderByWithRelationInput | RentalSnapshotOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RentalSnapshots.
+     */
+    cursor?: RentalSnapshotWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RentalSnapshots from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RentalSnapshots.
+     */
+    skip?: number
+    distinct?: RentalSnapshotScalarFieldEnum | RentalSnapshotScalarFieldEnum[]
+  }
+
+  /**
+   * RentalSnapshot create
+   */
+  export type RentalSnapshotCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalSnapshot
+     */
+    select?: RentalSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RentalSnapshot
+     */
+    omit?: RentalSnapshotOmit<ExtArgs> | null
+    /**
+     * The data needed to create a RentalSnapshot.
+     */
+    data: XOR<RentalSnapshotCreateInput, RentalSnapshotUncheckedCreateInput>
+  }
+
+  /**
+   * RentalSnapshot createMany
+   */
+  export type RentalSnapshotCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RentalSnapshots.
+     */
+    data: RentalSnapshotCreateManyInput | RentalSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RentalSnapshot createManyAndReturn
+   */
+  export type RentalSnapshotCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalSnapshot
+     */
+    select?: RentalSnapshotSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RentalSnapshot
+     */
+    omit?: RentalSnapshotOmit<ExtArgs> | null
+    /**
+     * The data used to create many RentalSnapshots.
+     */
+    data: RentalSnapshotCreateManyInput | RentalSnapshotCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * RentalSnapshot update
+   */
+  export type RentalSnapshotUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalSnapshot
+     */
+    select?: RentalSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RentalSnapshot
+     */
+    omit?: RentalSnapshotOmit<ExtArgs> | null
+    /**
+     * The data needed to update a RentalSnapshot.
+     */
+    data: XOR<RentalSnapshotUpdateInput, RentalSnapshotUncheckedUpdateInput>
+    /**
+     * Choose, which RentalSnapshot to update.
+     */
+    where: RentalSnapshotWhereUniqueInput
+  }
+
+  /**
+   * RentalSnapshot updateMany
+   */
+  export type RentalSnapshotUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RentalSnapshots.
+     */
+    data: XOR<RentalSnapshotUpdateManyMutationInput, RentalSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which RentalSnapshots to update
+     */
+    where?: RentalSnapshotWhereInput
+    /**
+     * Limit how many RentalSnapshots to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RentalSnapshot updateManyAndReturn
+   */
+  export type RentalSnapshotUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalSnapshot
+     */
+    select?: RentalSnapshotSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the RentalSnapshot
+     */
+    omit?: RentalSnapshotOmit<ExtArgs> | null
+    /**
+     * The data used to update RentalSnapshots.
+     */
+    data: XOR<RentalSnapshotUpdateManyMutationInput, RentalSnapshotUncheckedUpdateManyInput>
+    /**
+     * Filter which RentalSnapshots to update
+     */
+    where?: RentalSnapshotWhereInput
+    /**
+     * Limit how many RentalSnapshots to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * RentalSnapshot upsert
+   */
+  export type RentalSnapshotUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalSnapshot
+     */
+    select?: RentalSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RentalSnapshot
+     */
+    omit?: RentalSnapshotOmit<ExtArgs> | null
+    /**
+     * The filter to search for the RentalSnapshot to update in case it exists.
+     */
+    where: RentalSnapshotWhereUniqueInput
+    /**
+     * In case the RentalSnapshot found by the `where` argument doesn't exist, create a new RentalSnapshot with this data.
+     */
+    create: XOR<RentalSnapshotCreateInput, RentalSnapshotUncheckedCreateInput>
+    /**
+     * In case the RentalSnapshot was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RentalSnapshotUpdateInput, RentalSnapshotUncheckedUpdateInput>
+  }
+
+  /**
+   * RentalSnapshot delete
+   */
+  export type RentalSnapshotDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalSnapshot
+     */
+    select?: RentalSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RentalSnapshot
+     */
+    omit?: RentalSnapshotOmit<ExtArgs> | null
+    /**
+     * Filter which RentalSnapshot to delete.
+     */
+    where: RentalSnapshotWhereUniqueInput
+  }
+
+  /**
+   * RentalSnapshot deleteMany
+   */
+  export type RentalSnapshotDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RentalSnapshots to delete
+     */
+    where?: RentalSnapshotWhereInput
+    /**
+     * Limit how many RentalSnapshots to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * RentalSnapshot without action
+   */
+  export type RentalSnapshotDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RentalSnapshot
+     */
+    select?: RentalSnapshotSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the RentalSnapshot
+     */
+    omit?: RentalSnapshotOmit<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -4498,6 +5631,18 @@ export namespace Prisma {
   };
 
   export type RentalScalarFieldEnum = (typeof RentalScalarFieldEnum)[keyof typeof RentalScalarFieldEnum]
+
+
+  export const RentalSnapshotScalarFieldEnum: {
+    id: 'id',
+    bookId: 'bookId',
+    userId: 'userId',
+    rentedAt: 'rentedAt',
+    availability: 'availability',
+    createdAt: 'createdAt'
+  };
+
+  export type RentalSnapshotScalarFieldEnum = (typeof RentalSnapshotScalarFieldEnum)[keyof typeof RentalSnapshotScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -4816,6 +5961,65 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Rental"> | Date | string
   }
 
+  export type RentalSnapshotWhereInput = {
+    AND?: RentalSnapshotWhereInput | RentalSnapshotWhereInput[]
+    OR?: RentalSnapshotWhereInput[]
+    NOT?: RentalSnapshotWhereInput | RentalSnapshotWhereInput[]
+    id?: StringFilter<"RentalSnapshot"> | string
+    bookId?: StringFilter<"RentalSnapshot"> | string
+    userId?: StringFilter<"RentalSnapshot"> | string
+    rentedAt?: DateTimeFilter<"RentalSnapshot"> | Date | string
+    availability?: IntFilter<"RentalSnapshot"> | number
+    createdAt?: DateTimeFilter<"RentalSnapshot"> | Date | string
+  }
+
+  export type RentalSnapshotOrderByWithRelationInput = {
+    id?: SortOrder
+    bookId?: SortOrder
+    userId?: SortOrder
+    rentedAt?: SortOrder
+    availability?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RentalSnapshotWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: RentalSnapshotWhereInput | RentalSnapshotWhereInput[]
+    OR?: RentalSnapshotWhereInput[]
+    NOT?: RentalSnapshotWhereInput | RentalSnapshotWhereInput[]
+    bookId?: StringFilter<"RentalSnapshot"> | string
+    userId?: StringFilter<"RentalSnapshot"> | string
+    rentedAt?: DateTimeFilter<"RentalSnapshot"> | Date | string
+    availability?: IntFilter<"RentalSnapshot"> | number
+    createdAt?: DateTimeFilter<"RentalSnapshot"> | Date | string
+  }, "id">
+
+  export type RentalSnapshotOrderByWithAggregationInput = {
+    id?: SortOrder
+    bookId?: SortOrder
+    userId?: SortOrder
+    rentedAt?: SortOrder
+    availability?: SortOrder
+    createdAt?: SortOrder
+    _count?: RentalSnapshotCountOrderByAggregateInput
+    _avg?: RentalSnapshotAvgOrderByAggregateInput
+    _max?: RentalSnapshotMaxOrderByAggregateInput
+    _min?: RentalSnapshotMinOrderByAggregateInput
+    _sum?: RentalSnapshotSumOrderByAggregateInput
+  }
+
+  export type RentalSnapshotScalarWhereWithAggregatesInput = {
+    AND?: RentalSnapshotScalarWhereWithAggregatesInput | RentalSnapshotScalarWhereWithAggregatesInput[]
+    OR?: RentalSnapshotScalarWhereWithAggregatesInput[]
+    NOT?: RentalSnapshotScalarWhereWithAggregatesInput | RentalSnapshotScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"RentalSnapshot"> | string
+    bookId?: StringWithAggregatesFilter<"RentalSnapshot"> | string
+    userId?: StringWithAggregatesFilter<"RentalSnapshot"> | string
+    rentedAt?: DateTimeWithAggregatesFilter<"RentalSnapshot"> | Date | string
+    availability?: IntWithAggregatesFilter<"RentalSnapshot"> | number
+    createdAt?: DateTimeWithAggregatesFilter<"RentalSnapshot"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     email: string
@@ -5030,6 +6234,69 @@ export namespace Prisma {
     returnedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RentalSnapshotCreateInput = {
+    id?: string
+    bookId: string
+    userId: string
+    rentedAt: Date | string
+    availability: number
+    createdAt?: Date | string
+  }
+
+  export type RentalSnapshotUncheckedCreateInput = {
+    id?: string
+    bookId: string
+    userId: string
+    rentedAt: Date | string
+    availability: number
+    createdAt?: Date | string
+  }
+
+  export type RentalSnapshotUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rentedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    availability?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RentalSnapshotUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rentedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    availability?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RentalSnapshotCreateManyInput = {
+    id?: string
+    bookId: string
+    userId: string
+    rentedAt: Date | string
+    availability: number
+    createdAt?: Date | string
+  }
+
+  export type RentalSnapshotUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rentedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    availability?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type RentalSnapshotUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    bookId?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    rentedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    availability?: IntFieldUpdateOperationsInput | number
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -5297,6 +6564,41 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter<$PrismaModel>
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
+  }
+
+  export type RentalSnapshotCountOrderByAggregateInput = {
+    id?: SortOrder
+    bookId?: SortOrder
+    userId?: SortOrder
+    rentedAt?: SortOrder
+    availability?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RentalSnapshotAvgOrderByAggregateInput = {
+    availability?: SortOrder
+  }
+
+  export type RentalSnapshotMaxOrderByAggregateInput = {
+    id?: SortOrder
+    bookId?: SortOrder
+    userId?: SortOrder
+    rentedAt?: SortOrder
+    availability?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RentalSnapshotMinOrderByAggregateInput = {
+    id?: SortOrder
+    bookId?: SortOrder
+    userId?: SortOrder
+    rentedAt?: SortOrder
+    availability?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type RentalSnapshotSumOrderByAggregateInput = {
+    availability?: SortOrder
   }
 
   export type RentalCreateNestedManyWithoutUserInput = {

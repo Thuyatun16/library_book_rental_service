@@ -59,3 +59,12 @@ model Rental {
   user       User         @relation(fields: [userId], references: [id])
   book       Book         @relation(fields: [bookId], references: [id])
 }
+
+model RentalSnapshot {
+  id           String   @id @default(uuid())
+  bookId       String
+  userId       String
+  rentedAt     DateTime
+  availability Int
+  createdAt    DateTime @default(now())
+}

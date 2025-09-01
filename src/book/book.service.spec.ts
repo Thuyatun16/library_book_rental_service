@@ -36,12 +36,23 @@ describe('BookService', () => {
 
   describe('create', () => {
     it('should create a new book', async () => {
-      const createBookDto = { title: 'Test Book', author: 'Test Author', quantity: 10 };
-      const mockBook = { id: 'uuid-1', ...createBookDto, createdAt: new Date(), updatedAt: new Date() };
+      const createBookDto = {
+        title: 'Test Book',
+        author: 'Test Author',
+        quantity: 10,
+      };
+      const mockBook = {
+        id: 'uuid-1',
+        ...createBookDto,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
       (prismaService.book.create as jest.Mock).mockResolvedValue(mockBook);
 
       const result = await service.create(createBookDto);
-      expect(prismaService.book.create).toHaveBeenCalledWith({ data: createBookDto });
+      expect(prismaService.book.create).toHaveBeenCalledWith({
+        data: createBookDto,
+      });
       expect(result).toEqual({
         message: 'Book created successfully',
         data: mockBook,
@@ -52,8 +63,22 @@ describe('BookService', () => {
   describe('findAll', () => {
     it('should return an array of books', async () => {
       const mockBooks = [
-        { id: 'uuid-1', title: 'Book 1', author: 'Author 1', quantity: 5, createdAt: new Date(), updatedAt: new Date() },
-        { id: 'uuid-2', title: 'Book 2', author: 'Author 2', quantity: 3, createdAt: new Date(), updatedAt: new Date() },
+        {
+          id: 'uuid-1',
+          title: 'Book 1',
+          author: 'Author 1',
+          quantity: 5,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
+        {
+          id: 'uuid-2',
+          title: 'Book 2',
+          author: 'Author 2',
+          quantity: 3,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ];
       (prismaService.book.findMany as jest.Mock).mockResolvedValue(mockBooks);
 
@@ -68,11 +93,20 @@ describe('BookService', () => {
 
   describe('findOne', () => {
     it('should return a single book by ID', async () => {
-      const mockBook = { id: 'uuid-1', title: 'Book 1', author: 'Author 1', quantity: 5, createdAt: new Date(), updatedAt: new Date() };
+      const mockBook = {
+        id: 'uuid-1',
+        title: 'Book 1',
+        author: 'Author 1',
+        quantity: 5,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
       (prismaService.book.findUnique as jest.Mock).mockResolvedValue(mockBook);
 
       const result = await service.findOne('uuid-1');
-      expect(prismaService.book.findUnique).toHaveBeenCalledWith({ where: { id: 'uuid-1' } });
+      expect(prismaService.book.findUnique).toHaveBeenCalledWith({
+        where: { id: 'uuid-1' },
+      });
       expect(result).toEqual({
         message: 'Book fetched successfully',
         data: mockBook,
@@ -82,15 +116,26 @@ describe('BookService', () => {
     it('should throw NotFoundException if book not found', async () => {
       (prismaService.book.findUnique as jest.Mock).mockResolvedValue(null);
 
-      await expect(service.findOne('non-existent-uuid')).rejects.toThrow(NotFoundException);
+      await expect(service.findOne('non-existent-uuid')).rejects.toThrow(
+        NotFoundException,
+      );
     });
   });
 
   describe('update', () => {
     it('should update a book by ID', async () => {
       const updateBookDto = { title: 'Updated Title', quantity: 8 };
-      const mockUpdatedBook = { id: 'uuid-1', title: 'Updated Title', author: 'Test Author', quantity: 8, createdAt: new Date(), updatedAt: new Date() };
-      (prismaService.book.update as jest.Mock).mockResolvedValue(mockUpdatedBook);
+      const mockUpdatedBook = {
+        id: 'uuid-1',
+        title: 'Updated Title',
+        author: 'Test Author',
+        quantity: 8,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      (prismaService.book.update as jest.Mock).mockResolvedValue(
+        mockUpdatedBook,
+      );
 
       const result = await service.update('uuid-1', updateBookDto);
       expect(prismaService.book.update).toHaveBeenCalledWith({
@@ -106,11 +151,22 @@ describe('BookService', () => {
 
   describe('remove', () => {
     it('should delete a book by ID', async () => {
-      const mockDeletedBook = { id: 'uuid-1', title: 'Book 1', author: 'Author 1', quantity: 5, createdAt: new Date(), updatedAt: new Date() };
-      (prismaService.book.delete as jest.Mock).mockResolvedValue(mockDeletedBook);
+      const mockDeletedBook = {
+        id: 'uuid-1',
+        title: 'Book 1',
+        author: 'Author 1',
+        quantity: 5,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
+      (prismaService.book.delete as jest.Mock).mockResolvedValue(
+        mockDeletedBook,
+      );
 
       const result = await service.remove('uuid-1');
-      expect(prismaService.book.delete).toHaveBeenCalledWith({ where: { id: 'uuid-1' } });
+      expect(prismaService.book.delete).toHaveBeenCalledWith({
+        where: { id: 'uuid-1' },
+      });
       expect(result).toEqual({
         message: 'Book deleted successfully',
       });

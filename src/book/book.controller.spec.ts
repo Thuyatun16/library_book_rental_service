@@ -44,8 +44,17 @@ describe('BookController', () => {
 
   describe('create', () => {
     it('should create a book', async () => {
-      const createBookDto: CreateBookDto = { title: 'Test Book', author: 'Test Author', quantity: 10 };
-      const mockBook = { id: 'uuid-1', ...createBookDto, createdAt: new Date(), updatedAt: new Date() };
+      const createBookDto: CreateBookDto = {
+        title: 'Test Book',
+        author: 'Test Author',
+        quantity: 10,
+      };
+      const mockBook = {
+        id: 'uuid-1',
+        ...createBookDto,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
       (service.create as jest.Mock).mockResolvedValue(mockBook);
 
       expect(await controller.create(createBookDto)).toEqual(mockBook);
@@ -56,7 +65,14 @@ describe('BookController', () => {
   describe('findAll', () => {
     it('should return an array of books', async () => {
       const mockBooks = [
-        { id: 'uuid-1', title: 'Book 1', author: 'Author 1', quantity: 5, createdAt: new Date(), updatedAt: new Date() },
+        {
+          id: 'uuid-1',
+          title: 'Book 1',
+          author: 'Author 1',
+          quantity: 5,
+          createdAt: new Date(),
+          updatedAt: new Date(),
+        },
       ];
       (service.findAll as jest.Mock).mockResolvedValue(mockBooks);
 
@@ -67,7 +83,14 @@ describe('BookController', () => {
 
   describe('findOne', () => {
     it('should return a single book', async () => {
-      const mockBook = { id: 'uuid-1', title: 'Book 1', author: 'Author 1', quantity: 5, createdAt: new Date(), updatedAt: new Date() };
+      const mockBook = {
+        id: 'uuid-1',
+        title: 'Book 1',
+        author: 'Author 1',
+        quantity: 5,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
       (service.findOne as jest.Mock).mockResolvedValue(mockBook);
 
       expect(await controller.findOne('uuid-1')).toEqual(mockBook);
@@ -78,17 +101,33 @@ describe('BookController', () => {
   describe('update', () => {
     it('should update a book', async () => {
       const updateBookDto: UpdateBookDto = { title: 'Updated Title' };
-      const mockBook = { id: 'uuid-1', title: 'Updated Title', author: 'Test Author', quantity: 10, createdAt: new Date(), updatedAt: new Date() };
+      const mockBook = {
+        id: 'uuid-1',
+        title: 'Updated Title',
+        author: 'Test Author',
+        quantity: 10,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
       (service.update as jest.Mock).mockResolvedValue(mockBook);
 
-      expect(await controller.update('uuid-1', updateBookDto)).toEqual(mockBook);
+      expect(await controller.update('uuid-1', updateBookDto)).toEqual(
+        mockBook,
+      );
       expect(service.update).toHaveBeenCalledWith('uuid-1', updateBookDto);
     });
   });
 
   describe('remove', () => {
     it('should remove a book', async () => {
-      const mockBook = { id: 'uuid-1', title: 'Book 1', author: 'Author 1', quantity: 5, createdAt: new Date(), updatedAt: new Date() };
+      const mockBook = {
+        id: 'uuid-1',
+        title: 'Book 1',
+        author: 'Author 1',
+        quantity: 5,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      };
       (service.remove as jest.Mock).mockResolvedValue(mockBook);
 
       expect(await controller.remove('uuid-1')).toEqual(mockBook);

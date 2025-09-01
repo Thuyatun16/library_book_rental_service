@@ -1,14 +1,21 @@
-import { Injectable, HttpException, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  HttpException,
+  InternalServerErrorException,
+} from '@nestjs/common';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 import { PrismaService } from '../prisma/prisma.service';
 import { RentBookDto } from './dto/rent-book.dto';
 import { RentalValidationService } from './rental-validation.service';
 import { PrismaClientKnownRequestError } from '@prisma/client/runtime/library';
+import { BookRentedEvent } from '../events/dto/book-rented.event';
 
 @Injectable()
 export class RentalService {
   constructor(
     private prisma: PrismaService,
     private rentalValidationService: RentalValidationService,
+    private eventEmitter: EventEmitter2,
   ) {}
 
   async rentBook(userId: string, rentBookDto: RentBookDto) {
@@ -27,6 +34,14 @@ export class RentalService {
           rentedAt: new Date(),
         },
       });
+
+      const bookRentedEvent = new BookRentedEvent(
+        bookId,
+        userId,
+        rental.rentedAt,
+      );
+      this.eventEmitter.emit('book.rented', bookRentedEvent);
+
       return {
         message: 'Book rented successfully',
         rental,
@@ -125,6 +140,26 @@ export class RentalService {
       return {
         message: 'All rentals retrieved successfully',
         rentals,
+      };
+    } catch (error) {
+      if (error instanceof HttpException) {
+        throw error;
+      } else if (error instanceof PrismaClientKnownRequestError) {
+        throw new InternalServerErrorException(error.message);
+      } else if (error instanceof Error) {
+        throw new InternalServerErrorException(error.message);
+      } else {
+        throw new InternalServerErrorException('An unknown error occurred');
+      }
+    }
+  }
+
+  async getSnapshots() {
+    try {
+      const snapshots = await this.prisma.rentalSnapshot.findMany();
+      return {
+        message: 'All rental snapshots retrieved successfully',
+        snapshots,
       };
     } catch (error) {
       if (error instanceof HttpException) {

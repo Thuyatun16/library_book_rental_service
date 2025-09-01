@@ -4,7 +4,7 @@ import { Role } from '@client';
 export class UserResponseData {
   @ApiProperty({ description: 'The id of the user' })
   id: string;
-  
+
   @ApiProperty({ description: 'The name of the user' })
   name: string;
 
@@ -22,6 +22,9 @@ export class ResponseDto {
   @ApiProperty({ description: 'User data (if applicable)', required: false })
   user?: UserResponseData;
 
-  @ApiProperty({ description: 'Authentication token (if applicable)', required: false })
+  @ApiProperty({
+    description: 'Authentication token (if applicable)',
+    required: false,
+  })
   token?: string;
 }

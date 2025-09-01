@@ -5,7 +5,11 @@ import { Role } from '@client';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class UpdateUserDto extends PartialType(CreateUserDto) {
-  @ApiProperty({ description: 'The role of the user', enum: Role, required: false })
+  @ApiProperty({
+    description: 'The role of the user',
+    enum: Role,
+    required: false,
+  })
   @IsOptional()
   @IsEnum(Role)
   role?: Role;

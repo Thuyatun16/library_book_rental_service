@@ -12,7 +12,7 @@ export class BookService {
     return {
       message: 'Book created successfully',
       data: response,
-    }
+    };
   }
 
   async findAll() {
@@ -20,7 +20,7 @@ export class BookService {
     return {
       message: 'Books fetched successfully',
       data: response,
-    }
+    };
   }
 
   async findOne(id: string) {
@@ -31,7 +31,7 @@ export class BookService {
     return {
       message: 'Book fetched successfully',
       data: response,
-    }
+    };
   }
 
   async update(id: string, updateBookDto: UpdateBookDto) {
@@ -42,13 +42,13 @@ export class BookService {
     return {
       message: 'Book updated successfully',
       data: response,
-    }
+    };
   }
 
   async remove(id: string) {
     await this.prisma.book.delete({ where: { id } });
     return {
       message: 'Book deleted successfully',
-    }
+    };
   }
 }

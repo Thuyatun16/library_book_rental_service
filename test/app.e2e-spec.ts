@@ -35,11 +35,11 @@ describe('App E2E Tests', () => {
     }).compile();
 
     app = moduleFixture.createNestApplication();
-    
+
     // Apply global guards to the test app
     const reflector = app.get(Reflector);
     app.useGlobalGuards(new JwtAuthGuard(reflector), new RolesGuard(reflector));
-    
+
     await app.init();
     await app.listen(0); // Listen on a random available port
 
@@ -161,7 +161,10 @@ describe('App E2E Tests', () => {
     it('/auth/login (POST) - should return 401 for invalid credentials', async () => {
       await request(app.getHttpServer())
         .post('/auth/login')
-        .send({ email: 'admin@gmail.com', password: 'wrongpassword' } as LoginDto)
+        .send({
+          email: 'admin@gmail.com',
+          password: 'wrongpassword',
+        } as LoginDto)
         .expect(HttpStatus.UNAUTHORIZED);
     });
   });
@@ -176,7 +179,9 @@ describe('App E2E Tests', () => {
     });
 
     it('/profile (GET) - should return 401 without token', async () => {
-      await request(app.getHttpServer()).get('/profile').expect(HttpStatus.UNAUTHORIZED);
+      await request(app.getHttpServer())
+        .get('/profile')
+        .expect(HttpStatus.UNAUTHORIZED);
     });
 
     it('/admin (GET) - should allow admin access', async () => {
@@ -213,7 +218,7 @@ describe('App E2E Tests', () => {
       expect(response.body.data.title).toBe(createBookDto.title);
       expect(response.body.data.author).toBe(createBookDto.author);
       expect(response.body.data.quantity).toBe(createBookDto.quantity);
-      
+
       testBookId = response.body.data.id;
     });
 
@@ -301,7 +306,7 @@ describe('App E2E Tests', () => {
         .delete(`/book/${testBookId}`)
         .set('Authorization', `Bearer ${adminToken}`)
         .expect(HttpStatus.OK);
-      
+
       // Reset testBookId since it's now deleted
       testBookId = '';
     });
@@ -463,7 +468,7 @@ describe('App E2E Tests', () => {
       expect(response.body.rental.bookId).toBe(rentalTestBookId);
       expect(response.body.rental.userId).toBe(studentUserId);
       expect(response.body.rental.status).toBe('RENTED');
-      
+
       testRentalId = response.body.rental.id;
     });
 
@@ -695,7 +700,10 @@ describe('App E2E Tests', () => {
       // For now, we'll test with a malformed token
       await request(app.getHttpServer())
         .get('/profile')
-        .set('Authorization', 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c')
+        .set(
+          'Authorization',
+          'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
+        )
         .expect(HttpStatus.UNAUTHORIZED);
     });
 

@@ -1,4 +1,4 @@
-import { Injectable, CanActivate, ExecutionContext, UnauthorizedException, ForbiddenException } from '@nestjs/common';
+import { Injectable, CanActivate, ExecutionContext } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { ROLES_KEY } from '../decorator/roles.decorator';
 import { Role } from '@client';
@@ -7,6 +7,10 @@ interface UserPayload {
   userId: string;
   email: string;
   role: Role;
+}
+
+interface AuthenticatedRequest extends Request {
+  user: UserPayload;
 }
 
 @Injectable()
@@ -21,17 +25,13 @@ export class RolesGuard implements CanActivate {
     if (!requiredRoles) {
       return true;
     }
-    const request = context.switchToHttp().getRequest();
-    const user: UserPayload = request.user;
-    
+    const request: AuthenticatedRequest = context.switchToHttp().getRequest();
+    const user = request.user;
+
     if (!user) {
-      throw new UnauthorizedException();
+      return false;
     }
-    
-    const hasRole = requiredRoles.some((role) => user.role === role);
-    if (!hasRole) {
-      throw new ForbiddenException('User does not have the required role');
-    }
-    return true;
+
+    return requiredRoles.some((role) => user.role === role);
   }
 }

@@ -1,4 +1,4 @@
-import { Role } from "@client";
+import { Role } from '@client';
 
 export interface UserPayload {
   id: string;

@@ -43,15 +43,20 @@ describe('AuthController', () => {
     };
     const mockResponse = {
       message: 'Login successful',
-      user: { id: 'user-id', name: 'Test User', email: 'test@example.com', role: Role.STUDENT },
+      user: {
+        id: 'user-id',
+        name: 'Test User',
+        email: 'test@example.com',
+        role: Role.STUDENT,
+      },
       token: 'mockToken',
     };
 
     it('should return login response on successful login', async () => {
-      (authService.login as jest.Mock).mockResolvedValue(mockResponse);
+      const loginSpy = jest.spyOn(authService, 'login').mockResolvedValue(mockResponse);
 
       const result = await controller.login(mockLoginDto);
-      expect(authService.login).toHaveBeenCalledWith(mockLoginDto);
+      expect(loginSpy).toHaveBeenCalledWith(mockLoginDto);
       expect(result).toEqual(mockResponse);
     });
 
@@ -60,7 +65,9 @@ describe('AuthController', () => {
         throw new UnauthorizedException();
       });
 
-      await expect(controller.login(mockLoginDto)).rejects.toThrow(UnauthorizedException);
+      await expect(controller.login(mockLoginDto)).rejects.toThrow(
+        UnauthorizedException,
+      );
     });
   });
 
@@ -73,14 +80,19 @@ describe('AuthController', () => {
     };
     const mockResponse = {
       message: 'User registered successfully',
-      user: { id: 'user-id', name: 'New User', email: 'new@example.com', role: Role.STUDENT },
+      user: {
+        id: 'user-id',
+        name: 'New User',
+        email: 'new@example.com',
+        role: Role.STUDENT,
+      },
     };
 
     it('should return registration response on successful registration', async () => {
-      (authService.register as jest.Mock).mockResolvedValue(mockResponse);
+      const registerSpy = jest.spyOn(authService, 'register').mockResolvedValue(mockResponse);
 
       const result = await controller.register(mockRegisterDto);
-      expect(authService.register).toHaveBeenCalledWith(mockRegisterDto);
+      expect(registerSpy).toHaveBeenCalledWith(mockRegisterDto);
       expect(result).toEqual(mockResponse);
     });
 
@@ -89,7 +101,9 @@ describe('AuthController', () => {
         throw new BadRequestException();
       });
 
-      await expect(controller.register(mockRegisterDto)).rejects.toThrow(BadRequestException);
+      await expect(controller.register(mockRegisterDto)).rejects.toThrow(
+        BadRequestException,
+      );
     });
   });
 });

@@ -50,34 +50,55 @@ describe('RentalController', () => {
   describe('rentBook', () => {
     it('should rent a book', async () => {
       const rentBookDto: RentBookDto = { bookId: 'book-uuid-1' };
-      const mockResponse = { message: 'Book rented successfully', rental: { id: 'rental-uuid-1' } };
+      const mockResponse = {
+        message: 'Book rented successfully',
+        rental: { id: 'rental-uuid-1' },
+      };
       (service.rentBook as jest.Mock).mockResolvedValue(mockResponse);
 
       const req = { user: mockUserPayload };
-      expect(await controller.rentBook(req as any, rentBookDto)).toEqual(mockResponse);
-      expect(service.rentBook).toHaveBeenCalledWith(mockUserPayload.id, rentBookDto);
+      expect(await controller.rentBook(req as any, rentBookDto)).toEqual(
+        mockResponse,
+      );
+      expect(service.rentBook).toHaveBeenCalledWith(
+        mockUserPayload.id,
+        rentBookDto,
+      );
     });
   });
 
   describe('returnBook', () => {
     it('should return a book', async () => {
       const rentalId = 'rental-uuid-1';
-      const mockResponse = { message: 'Book returned successfully', updatedRental: { id: rentalId } };
+      const mockResponse = {
+        message: 'Book returned successfully',
+        updatedRental: { id: rentalId },
+      };
       (service.returnBook as jest.Mock).mockResolvedValue(mockResponse);
 
       const req = { user: mockUserPayload };
-      expect(await controller.returnBook(req as any, rentalId)).toEqual(mockResponse);
-      expect(service.returnBook).toHaveBeenCalledWith(mockUserPayload.id, rentalId);
+      expect(await controller.returnBook(req as any, rentalId)).toEqual(
+        mockResponse,
+      );
+      expect(service.returnBook).toHaveBeenCalledWith(
+        mockUserPayload.id,
+        rentalId,
+      );
     });
   });
 
   describe('findUserRentals', () => {
     it('should return user rentals', async () => {
-      const mockResponse = { message: 'User rentals retrieved successfully', rentals: [] };
+      const mockResponse = {
+        message: 'User rentals retrieved successfully',
+        rentals: [],
+      };
       (service.findUserRentals as jest.Mock).mockResolvedValue(mockResponse);
 
       const req = { user: mockUserPayload };
-      expect(await controller.findUserRentals(req as any)).toEqual(mockResponse);
+      expect(await controller.findUserRentals(req as any)).toEqual(
+        mockResponse,
+      );
       expect(service.findUserRentals).toHaveBeenCalledWith(mockUserPayload.id);
     });
   });
@@ -85,7 +106,12 @@ describe('RentalController', () => {
   describe('findAllRentals', () => {
     it('should return all rentals', async () => {
       const mockResponse = [
-        { id: 'rental-uuid-1', userId: 'user-uuid-1', bookId: 'book-uuid-1', status: 'RENTED' },
+        {
+          id: 'rental-uuid-1',
+          userId: 'user-uuid-1',
+          bookId: 'book-uuid-1',
+          status: 'RENTED',
+        },
       ];
       (service.findAllRentals as jest.Mock).mockResolvedValue(mockResponse);
 

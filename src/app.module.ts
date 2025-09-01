@@ -1,4 +1,5 @@
 import { Module } from '@nestjs/common';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 import { AppService } from './app.service';
 import { AppController } from './app.controller';
 import { PrismaModule } from './prisma/prisma.module';
@@ -9,17 +10,18 @@ import { RentalModule } from './rental/rental.module';
 import { APP_GUARD } from '@nestjs/core';
 import { UserModule } from './user/user.module';
 import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
-
+import { EventsModule } from './events/events.module';
 
 @Module({
   imports: [
+    EventEmitterModule.forRoot(),
     ConfigModule.forRoot({
       isGlobal: true,
     }),
     ThrottlerModule.forRoot([
       {
-        ttl: 60000, 
-        limit: 20, 
+        ttl: 60000,
+        limit: 20,
       },
     ]),
     PrismaModule,
@@ -27,6 +29,7 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
     BookModule,
     RentalModule,
     UserModule,
+    EventsModule,
   ],
   controllers: [AppController],
   providers: [

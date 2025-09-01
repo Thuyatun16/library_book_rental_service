@@ -63,23 +63,34 @@ describe('AuthService', () => {
       (prismaService.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
       (bcrypt.compare as jest.Mock).mockResolvedValue(true);
 
-      const result = await service.validateUser('test@example.com', 'plainPassword');
-      expect(result).toEqual(expect.objectContaining({ email: 'test@example.com' }));
+      const result = await service.validateUser(
+        'test@example.com',
+        'plainPassword',
+      );
+      expect(result).toEqual(
+        expect.objectContaining({ email: 'test@example.com' }),
+      );
       expect(result).not.toHaveProperty('password');
     });
 
     it('should return null if user not found', async () => {
       (prismaService.user.findUnique as jest.Mock).mockResolvedValue(null);
 
-      const result = await service.validateUser('nonexistent@example.com', 'password');
+      const result = await service.validateUser(
+        'nonexistent@example.com',
+        'password',
+      );
       expect(result).toBeNull();
     });
 
     it('should return null if password is invalid', async () => {
-      (prismaService.user.findUnique as jest.Mock).mockResolvedValue(mockUser);
-      (bcrypt.compare as jest.Mock).mockResolvedValue(false);
+      jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(mockUser);
+      jest.spyOn(bcrypt, 'compare').mockResolvedValue(false);
 
-      const result = await service.validateUser('test@example.com', 'wrongPassword');
+      const result = await service.validateUser(
+        'test@example.com',
+        'wrongPassword',
+      );
       expect(result).toBeNull();
     });
   });
@@ -100,13 +111,18 @@ describe('AuthService', () => {
     const mockAccessToken = 'mockAccessToken';
 
     beforeEach(() => {
-      jest.spyOn(service, 'validateUser').mockResolvedValue(mockUserWithoutPassword);
+      jest
+        .spyOn(service, 'validateUser')
+        .mockResolvedValue(mockUserWithoutPassword);
       (jwtService.sign as jest.Mock).mockReturnValue(mockAccessToken);
     });
 
     it('should return access token and user data on successful login', async () => {
       const result = await service.login(mockLoginDto);
-      expect(service.validateUser).toHaveBeenCalledWith(mockLoginDto.email, mockLoginDto.password);
+      expect(service.validateUser).toHaveBeenCalledWith(
+        mockLoginDto.email,
+        mockLoginDto.password,
+      );
       expect(jwtService.sign).toHaveBeenCalledWith({
         email: mockUserWithoutPassword.email,
         sub: mockUserWithoutPassword.id,
@@ -115,7 +131,7 @@ describe('AuthService', () => {
       expect(result).toEqual({
         message: 'Login successful',
         user: {
-          id:mockUserWithoutPassword.id,
+          id: mockUserWithoutPassword.id,
           name: mockUserWithoutPassword.name,
           email: mockUserWithoutPassword.email,
           role: mockUserWithoutPassword.role,
@@ -125,10 +141,14 @@ describe('AuthService', () => {
     });
 
     it('should throw UnauthorizedException if validateUser returns null', async () => {
-      (service.validateUser as jest.Mock).mockResolvedValue(null);
+      jest.spyOn(service, 'validateUser').mockResolvedValue(null);
 
-      await expect(service.login(mockLoginDto)).rejects.toThrow(UnauthorizedException);
-      await expect(service.login(mockLoginDto)).rejects.toThrow('Invalid credentials');
+      await expect(service.login(mockLoginDto)).rejects.toThrow(
+        UnauthorizedException,
+      );
+      await expect(service.login(mockLoginDto)).rejects.toThrow(
+        'Invalid credentials',
+      );
     });
   });
 
@@ -150,7 +170,9 @@ describe('AuthService', () => {
     beforeEach(() => {
       (bcrypt.hash as jest.Mock).mockResolvedValue('hashedNewPassword');
       (prismaService.user.findUnique as jest.Mock).mockResolvedValue(null); // No existing user
-      (prismaService.user.create as jest.Mock).mockResolvedValue(mockCreatedUser);
+      (prismaService.user.create as jest.Mock).mockResolvedValue(
+        mockCreatedUser,
+      );
     });
 
     it('should create and return a new user', async () => {
@@ -167,7 +189,7 @@ describe('AuthService', () => {
       expect(result).toEqual({
         message: 'User registered successfully',
         user: {
-          id:mockCreatedUser.id,
+          id: mockCreatedUser.id,
           name: mockCreatedUser.name,
           email: mockCreatedUser.email,
           role: mockCreatedUser.role,
@@ -177,15 +199,25 @@ describe('AuthService', () => {
 
     it('should throw BadRequestException if role is ADMIN', async () => {
       const adminRegisterDto = { ...mockRegisterDto, role: Role.ADMIN };
-      await expect(service.register(adminRegisterDto)).rejects.toThrow(BadRequestException);
-      await expect(service.register(adminRegisterDto)).rejects.toThrow('Cannot register as ADMIN role.');
+      await expect(service.register(adminRegisterDto)).rejects.toThrow(
+        BadRequestException,
+      );
+      await expect(service.register(adminRegisterDto)).rejects.toThrow(
+        'Cannot register as ADMIN role.',
+      );
     });
 
     it('should throw BadRequestException if email already registered', async () => {
-      (prismaService.user.findUnique as jest.Mock).mockResolvedValue(mockCreatedUser); // User already exists
+      jest.spyOn(prismaService.user, 'findUnique').mockResolvedValue(
+        mockCreatedUser,
+      ); // User already exists
 
-      await expect(service.register(mockRegisterDto)).rejects.toThrow(BadRequestException);
-      await expect(service.register(mockRegisterDto)).rejects.toThrow('Email already registered.');
+      await expect(service.register(mockRegisterDto)).rejects.toThrow(
+        BadRequestException,
+      );
+      await expect(service.register(mockRegisterDto)).rejects.toThrow(
+        'Email already registered.',
+      );
     });
   });
 });

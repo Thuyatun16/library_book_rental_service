@@ -1,4 +1,8 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import {
+  Injectable,
+  BadRequestException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { RentalStatus } from '@client';
 
@@ -32,7 +36,9 @@ export class RentalValidationService {
 
   validateUserAuthorization(rentalUserId: string, currentUserId: string) {
     if (rentalUserId !== currentUserId) {
-      throw new BadRequestException('You can only return your own rented books');
+      throw new BadRequestException(
+        'You can only return your own rented books',
+      );
     }
   }
 

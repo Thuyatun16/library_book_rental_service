@@ -150,6 +150,15 @@ exports.Prisma.RentalScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.RentalSnapshotScalarFieldEnum = {
+  id: 'id',
+  bookId: 'bookId',
+  userId: 'userId',
+  rentedAt: 'rentedAt',
+  availability: 'availability',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -178,7 +187,8 @@ exports.RentalStatus = exports.$Enums.RentalStatus = {
 exports.Prisma.ModelName = {
   User: 'User',
   Book: 'Book',
-  Rental: 'Rental'
+  Rental: 'Rental',
+  RentalSnapshot: 'RentalSnapshot'
 };
 
 /**
